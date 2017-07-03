@@ -19,7 +19,7 @@ def file_parser(input_file):
     if input_file.endswith('.json'):
         with open(os.path.abspath(input_file), 'r', encoding='utf-8') as json_file:
             json_file = json.load(json_file)
-        for data in json_file.data:
+        for data in json_file['data']:
             DataSetModel.objects.create(
                 group_region=data['Регион'],
                 parameter_country=data['Страна'],
@@ -31,11 +31,14 @@ def file_parser(input_file):
         with open(os.path.abspath(input_file), 'r', encoding='utf-8') as csv_file:
             csv_read_file = csv.reader(csv_file)
             for row in csv_read_file:
-                DataSetModel.objects.create(
-                    group_region=row[0],
-                    parameter_country=row[1],
-                    value=row[2]
-                )
+		if row[0] != 'Регион': 
+                    DataSetModel.objects.create(
+                        group_region=row[0],
+                        parameter_country=row[1],
+                        value=row[2]
+                    )
+		else:
+		    pass
             return 'OK'
     else:
         return 'File not recognized'

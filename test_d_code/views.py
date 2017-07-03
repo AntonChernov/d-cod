@@ -28,7 +28,7 @@ def return_charts(request):
             counts_of_title.append({'name': title, 'y': counter, 'drilldown': title})
         object_set = DataSetModel.objects.filter(group_region=request.GET.get('region'))
         for i in object_set:
-            series_to_chart.append({'name': i.parameter_country, 'y': int(i.value), 'drilldown': i.parameter_country})
+            series_to_chart.append({'name': i.parameter_country, 'y': float(i.value), 'drilldown': i.parameter_country})
         data_map['series_chart'] = series_to_chart
         data_map['count'] = counts_of_title
         return JsonResponse(data=data_map, safe=False, content_type="application/json")
