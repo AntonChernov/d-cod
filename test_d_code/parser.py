@@ -31,14 +31,14 @@ def file_parser(input_file):
         with open(os.path.abspath(input_file), 'r', encoding='utf-8') as csv_file:
             csv_read_file = csv.reader(csv_file)
             for row in csv_read_file:
-		if row[0] != 'Регион': 
+                if row[0] != 'Регион':
                     DataSetModel.objects.create(
                         group_region=row[0],
                         parameter_country=row[1],
                         value=row[2]
                     )
-		else:
-		    pass
+                else:
+                    pass
             return 'OK'
     else:
         return 'File not recognized'
