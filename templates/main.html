@@ -13,6 +13,8 @@
 <script src="/static/api/code/modules/data.js"></script>
 <script src="/static/api/code/modules/drilldown.js"></script>
 <script src="/static/api/code/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/ajaxRequests.js"></script>
+<script src="/static/js/initHC.js"></script>
 <div>
     <select id="chartValues">
         <option value="">Select one...</option>
@@ -23,71 +25,9 @@
 </div>
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <script type="text/javascript">
-function hightchartsData(data) {
-        Highcharts.chart('container', {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Тестовое Задание'
-            },
-            xAxis: {
-                type: 'category'
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                series: {
-                    borderWidth: 0,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.y:.1f}%'
-                    }
-                }
-            },
-
-            tooltip: {
-                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-            },
-
-            series: [{
-                name: 'Регионы',
-                colorByPoint: true,
-                data: data
-            }]
-        });
-    }
-$(function () {
-          $.ajax({
-          url: "/main/charts/",
-          type: "GET",
-          dataType: 'json',
-          success: function(data){
-              $("#container").empty();
-              hightchartsData(data.count)
-          },
-          error: function(data){
-             console.log('Ошибка');
-          }});
-    });
-
-    $('#chartValues').change(function () {
-        $.ajax({
-          url: "/main/charts/",
-          type: "GET",
-          data:"region=" + this.value,
-          dataType: 'json',
-          success: function(data){
-              $("#container").empty();
-              hightchartsData(data.series_chart)
-          },
-          error: function(data){
-             console.log('Ошибка');
-          }});
-    })
-
-		</script>
+    requestOnMain();
+    onChangeDropDown();
+    hightchartsData();
+</script>
 	</body>
 </html>
